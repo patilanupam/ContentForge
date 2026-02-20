@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContentForge - AI Content Repurposing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 ContentForge</h1>
+            <p class="tagline">Turn one piece of content into posts for every platform</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <h2>Paste Your Content</h2>
+                <textarea id="content" placeholder="Paste your blog post, video script, podcast notes, or any content here..."></textarea>
+                
+                <div class="platform-select">
+                    <h3>Choose Platform</h3>
+                    <div class="platforms">
+                        <button class="platform-btn active" data-platform="twitter">
+                            𝕏 Twitter Thread
+                        </button>
+                        <button class="platform-btn" data-platform="linkedin">
+                            💼 LinkedIn
+                        </button>
+                        <button class="platform-btn" data-platform="instagram">
+                            📸 Instagram
+                        </button>
+                        <button class="platform-btn" data-platform="newsletter">
+                            📧 Newsletter
+                        </button>
+                        <button class="platform-btn" data-platform="youtube">
+                            🎬 YouTube Desc
+                        </button>
+                    </div>
+                </div>
+
+                <button id="transform-btn" class="transform-btn">
+                    ✨ Transform Content
+                </button>
+            </div>
+
+            <div class="output-section" id="output-section" style="display: none;">
+                <div class="output-header">
+                    <h2>Your <span id="platform-name">Twitter</span> Content</h2>
+                    <button id="copy-btn" class="copy-btn">📋 Copy</button>
+                </div>
+                <div id="result" class="result"></div>
+            </div>
+
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Transforming your content...</p>
+            </div>
+
+            <div id="error" class="error" style="display: none;"></div>
+        </main>
+
+        <footer>
+            <p>Built with ❤️ | <a href="#">Upgrade to Pro</a> for unlimited transforms</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
