@@ -58,7 +58,19 @@ PLATFORM_PROMPTS = {
 }
 
 @app.route('/')
-def index():
+def landing():
+    return render_template('index.html')
+
+@app.route('/tool')
+def tool():
+    return render_template('index.html')
+
+@app.route('/history')
+def history():
+    return render_template('index.html')
+
+@app.route('/templates')
+def templates():
     return render_template('index.html')
 
 @app.route('/transform', methods=['POST'])
@@ -67,6 +79,7 @@ def transform():
         data = request.json
         content = data.get('content', '')
         platform = data.get('platform', 'twitter')
+        params = data.get('parameters', {})
         
         if not content:
             return jsonify({'error': 'No content provided'}), 400
@@ -74,8 +87,33 @@ def transform():
         if platform not in PLATFORM_PROMPTS:
             return jsonify({'error': 'Invalid platform'}), 400
         
-        system_prompt = "You are an expert content repurposing specialist. Transform content for different social media platforms while maintaining the core message and value."
-        prompt = f"{system_prompt}\n\n{PLATFORM_PROMPTS[platform]}\n\nOriginal Content:\n{content}"
+        # Build enhanced prompt with parameters
+        base_prompt = PLATFORM_PROMPTS[platform]
+        
+        # Add parameter instructions
+        param_instructions = []
+        if params.get('tone'):
+            param_instructions.append(f"Tone: {params['tone']}")
+        if params.get('length'):
+            length_map = {'short': 'concise', 'medium': 'moderate length', 'long': 'detailed'}
+            param_instructions.append(f"Length: {length_map.get(params['length'], 'moderate length')}")
+        if params.get('emoji'):
+            emoji_map = {'none': 'no emojis', 'minimal': '1-2 emojis', 'moderate': '3-5 emojis', 'heavy': '8-10 emojis'}
+            param_instructions.append(f"Emoji usage: {emoji_map.get(params['emoji'], 'moderate')}")
+        if params.get('hashtags'):
+            hashtags = params['hashtags']
+            if hashtags > 0:
+                param_instructions.append(f"Include {hashtags} relevant hashtags")
+        if not params.get('includeCTA', True):
+            param_instructions.append("Do not include call-to-action")
+        
+        additional_params = "\n".join([f"- {p}" for p in param_instructions]) if param_instructions else ""
+        
+        system_prompt = f"""You are an expert content repurposing specialist. Transform content for different social media platforms while maintaining the core message and value.
+
+{f'Additional Requirements:{chr(10)}{additional_params}' if additional_params else ''}"""
+        
+        prompt = f"{system_prompt}\n\n{base_prompt}\n\nOriginal Content:\n{content}"
         
         response = client.models.generate_content(
             model="gemini-2.5-flash",

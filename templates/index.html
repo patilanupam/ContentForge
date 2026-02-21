@@ -3,68 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ContentForge - AI Content Repurposing</title>
+    <title>ContentForge - AI Content Transformation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔥 ContentForge</h1>
-            <p class="tagline">Turn one piece of content into posts for every platform</p>
+    <!-- Left Sidebar with Parameters -->
+    <aside class="left-sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">🔥</span>
+            <h3>ContentForge</h3>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="sidebar-section">
+            <h4 class="section-title">📊 Dashboard</h4>
+            <div class="stat-card">
+                <div class="stat-label">Input Tokens</div>
+                <div class="stat-value" id="input-tokens">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Output Tokens</div>
+                <div class="stat-value" id="output-tokens">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Transformations</div>
+                <div class="stat-value" id="total-transforms">0</div>
+            </div>
+        </div>
+
+        <!-- Transformation Parameters -->
+        <div class="sidebar-section">
+            <h4 class="section-title">⚙️ Parameters</h4>
+            
+            <div class="param-group">
+                <label class="param-label">Tone</label>
+                <select id="tone-select" class="param-select">
+                    <option value="professional">Professional</option>
+                    <option value="casual">Casual</option>
+                    <option value="friendly">Friendly</option>
+                    <option value="enthusiastic">Enthusiastic</option>
+                </select>
+            </div>
+
+            <div class="param-group">
+                <label class="param-label">Length</label>
+                <select id="length-select" class="param-select">
+                    <option value="short">Short</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="long">Long</option>
+                </select>
+            </div>
+
+            <div class="param-group">
+                <label class="param-label">Emoji Usage</label>
+                <select id="emoji-select" class="param-select">
+                    <option value="none">None</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="moderate" selected>Moderate</option>
+                    <option value="heavy">Heavy</option>
+                </select>
+            </div>
+
+            <div class="param-group">
+                <label class="param-label">Hashtags</label>
+                <select id="hashtag-select" class="param-select">
+                    <option value="0">None</option>
+                    <option value="3">3 tags</option>
+                    <option value="5" selected>5 tags</option>
+                    <option value="10">10 tags</option>
+                </select>
+            </div>
+
+            <div class="param-group checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="cta-checkbox" checked>
+                    <span>Include Call-to-Action</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="reset-btn" id="reset-params">🔄 Reset</button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+    <!-- Simple Top Nav -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span class="brand-emoji">🔥</span>
+            <span class="brand-name">ContentForge</span>
+        </div>
+        <div class="nav-stats">
+            <span class="stat"><span id="total-count">0</span> created</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Transform Your Content</h1>
+            <p>Paste once, post everywhere</p>
         </header>
 
-        <main>
-            <div class="input-section">
-                <h2>Paste Your Content</h2>
-                <textarea id="content" placeholder="Paste your blog post, video script, podcast notes, or any content here..."></textarea>
+        <!-- Tool Card -->
+        <div class="tool-card">
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="area-header">
+                    <span class="header-icon">✍️</span>
+                    <span class="header-text">Your Content</span>
+                    <span class="char-badge"><span id="chars">0</span> chars</span>
+                </div>
+                <textarea 
+                    id="content-input" 
+                    placeholder="Paste your blog post, notes, or any content here...
+
+Try a quick example below or start typing!"
+                ></textarea>
                 
-                <div class="platform-select">
-                    <h3>Choose Platform</h3>
-                    <div class="platforms">
-                        <button class="platform-btn active" data-platform="twitter">
-                            𝕏 Twitter Thread
-                        </button>
-                        <button class="platform-btn" data-platform="linkedin">
-                            💼 LinkedIn
-                        </button>
-                        <button class="platform-btn" data-platform="instagram">
-                            📸 Instagram
-                        </button>
-                        <button class="platform-btn" data-platform="newsletter">
-                            📧 Newsletter
-                        </button>
-                        <button class="platform-btn" data-platform="youtube">
-                            🎬 YouTube Desc
-                        </button>
-                    </div>
+                <!-- Quick Examples Row -->
+                <div class="examples-row">
+                    <button class="example-tag" data-type="blog">📄 Blog</button>
+                    <button class="example-tag" data-type="podcast">🎙️ Podcast</button>
+                    <button class="example-tag" data-type="video">🎬 Video</button>
+                    <button class="example-tag clear-tag" id="clear-all">🗑️ Clear</button>
                 </div>
-
-                <button id="transform-btn" class="transform-btn">
-                    ✨ Transform Content
-                </button>
             </div>
 
-            <div class="output-section" id="output-section" style="display: none;">
-                <div class="output-header">
-                    <h2>Your <span id="platform-name">Twitter</span> Content</h2>
-                    <button id="copy-btn" class="copy-btn">📋 Copy</button>
+            <!-- Platform Selector -->
+            <div class="platform-selector">
+                <div class="selector-label">Transform to:</div>
+                <div class="platform-pills">
+                    <button class="pill active" data-platform="twitter">
+                        <span class="pill-emoji">𝕏</span>
+                        <span>Twitter</span>
+                    </button>
+                    <button class="pill" data-platform="linkedin">
+                        <span class="pill-emoji">💼</span>
+                        <span>LinkedIn</span>
+                    </button>
+                    <button class="pill" data-platform="instagram">
+                        <span class="pill-emoji">📸</span>
+                        <span>Instagram</span>
+                    </button>
+                    <button class="pill" data-platform="newsletter">
+                        <span class="pill-emoji">📧</span>
+                        <span>Newsletter</span>
+                    </button>
+                    <button class="pill" data-platform="youtube">
+                        <span class="pill-emoji">🎬</span>
+                        <span>YouTube</span>
+                    </button>
                 </div>
-                <div id="result" class="result"></div>
             </div>
 
-            <div id="loading" class="loading" style="display: none;">
-                <div class="spinner"></div>
-                <p>Transforming your content...</p>
+            <!-- Transform Button -->
+            <button id="transform-btn" class="magic-button">
+                <span class="magic-icon">✨</span>
+                <span class="magic-text">Transform</span>
+            </button>
+        </div>
+
+        <!-- Result Card (Hidden initially) -->
+        <div class="result-card" id="result-card" style="display: none;">
+            <div class="result-header">
+                <div class="result-title">
+                    <span class="result-emoji">✅</span>
+                    <span id="result-platform-name">Twitter</span> Content Ready!
+                </div>
+                <div class="result-actions">
+                    <button class="action-icon" id="copy-result" title="Copy">📋</button>
+                    <button class="action-icon" id="download-result" title="Download">⬇️</button>
+                    <button class="action-icon" id="regenerate-result" title="Regenerate">🔄</button>
+                </div>
             </div>
+            <div class="result-content" id="result-content"></div>
+        </div>
 
-            <div id="error" class="error" style="display: none;"></div>
-        </main>
-
-        <footer>
-            <p>Built with ❤️ | <a href="#">Upgrade to Pro</a> for unlimited transforms</p>
-        </footer>
+        <!-- Loading Animation -->
+        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="magic-circle"></div>
+                <p>Creating magic<span class="animate-dots"></span></p>
+            </div>
+        </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    </main>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

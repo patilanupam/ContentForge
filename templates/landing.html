@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContentForge - AI Content Repurposing Made Simple</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="logo-icon">🔥</span>
+                <span class="logo-text">ContentForge</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tool">Tool</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="/tool" class="cta-button">Try Free</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Transform One Piece of Content Into
+                    <span class="gradient-text">Posts for Every Platform</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Stop wasting hours manually repurposing content. Let AI transform your blog posts, videos, and podcasts into platform-optimized posts in seconds.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-target="10000">0</span>
+                        <span class="stat-label">Content Transformed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-target="95">0</span>%
+                        <span class="stat-label">Time Saved</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-target="5">0</span>
+                        <span class="stat-label">Platforms Supported</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="/tool" class="primary-btn">Start Free Trial</a>
+                    <a href="#demo" class="secondary-btn">Watch Demo</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="demo-card">
+                    <div class="demo-input">
+                        <span class="demo-label">Your Content</span>
+                        <div class="demo-text">Blog post, video script, podcast notes...</div>
+                    </div>
+                    <div class="demo-arrow">→</div>
+                    <div class="demo-outputs">
+                        <div class="platform-badge">🐦 Twitter</div>
+                        <div class="platform-badge">💼 LinkedIn</div>
+                        <div class="platform-badge">📸 Instagram</div>
+                        <div class="platform-badge">📧 Newsletter</div>
+                        <div class="platform-badge">🎬 YouTube</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why ContentForge?</h2>
+            <p class="section-subtitle">Everything you need to dominate every platform</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Transform content in seconds, not hours. Get platform-optimized posts instantly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Platform-Optimized</h3>
+                    <p>Each output follows best practices for engagement on that specific platform.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>AI-Powered</h3>
+                    <p>Uses advanced AI to maintain your message while adapting tone and format.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Track Progress</h3>
+                    <p>See how much time you've saved and track your transformation history.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Perfect Formatting</h3>
+                    <p>Hashtags, emojis, line breaks - everything formatted perfectly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Unlimited Edits</h3>
+                    <p>Not happy? Regenerate with one click until it's perfect.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <p class="section-subtitle">Start free, upgrade when you're ready</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 class="plan-name">Free</h3>
+                    <div class="plan-price">
+                        <span class="price">$0</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✅ 10 transformations/month</li>
+                        <li>✅ 5 platforms</li>
+                        <li>✅ Basic templates</li>
+                        <li>❌ Priority support</li>
+                        <li>❌ Custom branding</li>
+                    </ul>
+                    <a href="/tool" class="plan-button">Get Started</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3 class="plan-name">Pro</h3>
+                    <div class="plan-price">
+                        <span class="price">$19</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✅ Unlimited transformations</li>
+                        <li>✅ All platforms</li>
+                        <li>✅ Premium templates</li>
+                        <li>✅ Priority support</li>
+                        <li>✅ Custom branding</li>
+                    </ul>
+                    <a href="/tool" class="plan-button primary">Start Pro Trial</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3 class="plan-name">Enterprise</h3>
+                    <div class="plan-price">
+                        <span class="price">Custom</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✅ Everything in Pro</li>
+                        <li>✅ API access</li>
+                        <li>✅ Team collaboration</li>
+                        <li>✅ Dedicated support</li>
+                        <li>✅ Custom integrations</li>
+                    </ul>
+                    <a href="mailto:contact@contentforge.com" class="plan-button">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container cta-container">
+            <h2>Ready to 10x Your Content Output?</h2>
+            <p>Join thousands of creators saving 10+ hours per week</p>
+            <a href="/tool" class="primary-btn large">Start Free Today</a>
+            <p class="cta-note">No credit card required • Cancel anytime</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-icon">🔥</span>
+                    <span class="logo-text">ContentForge</span>
+                </div>
+                <p>AI-powered content repurposing made simple</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Product</h4>
+                    <a href="/tool">Tool</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ContentForge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='landing.js') }}"></script>
+</body>
+</html>
