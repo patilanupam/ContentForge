@@ -8,36 +8,36 @@
 </head>
 <body>
     <!-- Left Sidebar with Parameters -->
-    <aside class="left-sidebar">
+    <aside class="left-sidebar" aria-label="Transformation parameters">
         <div class="sidebar-brand">
-            <span class="brand-icon">🔥</span>
+            <span class="brand-icon" aria-hidden="true">🔥</span>
             <h3>ContentForge</h3>
         </div>
 
         <!-- Dashboard Stats -->
         <div class="sidebar-section">
             <h4 class="section-title">📊 Dashboard</h4>
-            <div class="stat-card">
+            <div class="stat-card" aria-label="Input tokens used">
                 <div class="stat-label">Input Tokens</div>
-                <div class="stat-value" id="input-tokens">0</div>
+                <div class="stat-value" id="input-tokens" aria-live="polite">0</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" aria-label="Output tokens used">
                 <div class="stat-label">Output Tokens</div>
-                <div class="stat-value" id="output-tokens">0</div>
+                <div class="stat-value" id="output-tokens" aria-live="polite">0</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" aria-label="Total transformations">
                 <div class="stat-label">Transformations</div>
-                <div class="stat-value" id="total-transforms">0</div>
+                <div class="stat-value" id="total-transforms" aria-live="polite">0</div>
             </div>
         </div>
 
         <!-- Transformation Parameters -->
         <div class="sidebar-section">
             <h4 class="section-title">⚙️ Parameters</h4>
-            
+
             <div class="param-group">
-                <label class="param-label">Tone</label>
-                <select id="tone-select" class="param-select">
+                <label class="param-label" for="tone-select">Tone</label>
+                <select id="tone-select" class="param-select" aria-label="Output tone">
                     <option value="professional">Professional</option>
                     <option value="casual">Casual</option>
                     <option value="friendly">Friendly</option>
@@ -46,8 +46,8 @@
             </div>
 
             <div class="param-group">
-                <label class="param-label">Length</label>
-                <select id="length-select" class="param-select">
+                <label class="param-label" for="length-select">Length</label>
+                <select id="length-select" class="param-select" aria-label="Output length">
                     <option value="short">Short</option>
                     <option value="medium" selected>Medium</option>
                     <option value="long">Long</option>
@@ -55,8 +55,8 @@
             </div>
 
             <div class="param-group">
-                <label class="param-label">Emoji Usage</label>
-                <select id="emoji-select" class="param-select">
+                <label class="param-label" for="emoji-select">Emoji Usage</label>
+                <select id="emoji-select" class="param-select" aria-label="Emoji density">
                     <option value="none">None</option>
                     <option value="minimal">Minimal</option>
                     <option value="moderate" selected>Moderate</option>
@@ -65,8 +65,8 @@
             </div>
 
             <div class="param-group">
-                <label class="param-label">Hashtags</label>
-                <select id="hashtag-select" class="param-select">
+                <label class="param-label" for="hashtag-select">Hashtags</label>
+                <select id="hashtag-select" class="param-select" aria-label="Number of hashtags">
                     <option value="0">None</option>
                     <option value="3">3 tags</option>
                     <option value="5" selected>5 tags</option>
@@ -74,29 +74,57 @@
                 </select>
             </div>
 
+            <div class="param-group">
+                <label class="param-label" for="output-lang-select">Output Language</label>
+                <select id="output-lang-select" class="param-select" aria-label="Output language">
+                    <option value="auto">Same as input</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="Portuguese">Portuguese</option>
+                    <option value="Arabic">Arabic</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Chinese">Chinese</option>
+                </select>
+            </div>
+
             <div class="param-group checkbox-group">
-                <label class="checkbox-label">
+                <label class="checkbox-label" for="cta-checkbox">
                     <input type="checkbox" id="cta-checkbox" checked>
                     <span>Include Call-to-Action</span>
                 </label>
             </div>
         </div>
 
+        <!-- Accessibility Controls -->
+        <div class="sidebar-section">
+            <h4 class="section-title">♿ Accessibility</h4>
+            <div class="a11y-controls">
+                <button id="contrast-toggle" class="a11y-btn" aria-label="Toggle high contrast mode" aria-pressed="false">
+                    🌓 High Contrast
+                </button>
+                <button id="text-size-toggle" class="a11y-btn" aria-label="Toggle larger text" aria-pressed="false">
+                    Aa Larger Text
+                </button>
+            </div>
+        </div>
+
         <div class="sidebar-footer">
-            <button class="reset-btn" id="reset-params">🔄 Reset</button>
+            <button class="reset-btn" id="reset-params" aria-label="Reset all parameters to defaults">🔄 Reset</button>
         </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="main-content">
     <!-- Simple Top Nav -->
-    <nav class="top-nav">
+    <nav class="top-nav" aria-label="Application navigation">
         <div class="nav-brand">
-            <span class="brand-emoji">🔥</span>
+            <span class="brand-emoji" aria-hidden="true">🔥</span>
             <span class="brand-name">ContentForge</span>
         </div>
         <div class="nav-stats">
-            <span class="stat"><span id="total-count">0</span> created</span>
+            <span class="stat"><span id="total-count" aria-live="polite">0</span> created</span>
         </div>
     </nav>
 
@@ -113,87 +141,134 @@
             <!-- Input Area -->
             <div class="input-area">
                 <div class="area-header">
-                    <span class="header-icon">✍️</span>
-                    <span class="header-text">Your Content</span>
-                    <span class="char-badge"><span id="chars">0</span> chars</span>
+                    <span class="header-icon" aria-hidden="true">✍️</span>
+                    <label class="header-text" for="content-input">Your Content</label>
+                    <span class="char-badge" aria-live="polite">
+                        <span id="chars">0</span> chars
+                    </span>
                 </div>
-                <textarea 
-                    id="content-input" 
+                <textarea
+                    id="content-input"
+                    aria-label="Input content to transform"
+                    aria-describedby="input-hint"
                     placeholder="Paste your blog post, notes, or any content here...
 
 Try a quick example below or start typing!"
                 ></textarea>
-                
+                <span id="input-hint" class="sr-only">Supports plain text, bullet notes, transcripts, and mixed-language content.</span>
+
                 <!-- Quick Examples Row -->
-                <div class="examples-row">
-                    <button class="example-tag" data-type="blog">📄 Blog</button>
-                    <button class="example-tag" data-type="podcast">🎙️ Podcast</button>
-                    <button class="example-tag" data-type="video">🎬 Video</button>
-                    <button class="example-tag clear-tag" id="clear-all">🗑️ Clear</button>
+                <div class="examples-row" role="group" aria-label="Load example content">
+                    <button class="example-tag" data-type="blog" aria-label="Load blog post example">📄 Blog</button>
+                    <button class="example-tag" data-type="podcast" aria-label="Load podcast notes example">🎙️ Podcast</button>
+                    <button class="example-tag" data-type="video" aria-label="Load video script example">🎬 Video</button>
+                    <button class="example-tag" data-type="hinglish" aria-label="Load Hinglish example">🌐 Hinglish</button>
+                    <button class="example-tag" data-type="notes" aria-label="Load rough notes example">📋 Rough Notes</button>
+                    <button class="example-tag clear-tag" id="clear-all" aria-label="Clear all content">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <!-- Normalization Controls -->
+            <div class="norm-controls" role="group" aria-labelledby="norm-label">
+                <div class="norm-toggle-row">
+                    <label class="norm-toggle-label" for="normalize-toggle">
+                        <input type="checkbox" id="normalize-toggle" aria-describedby="norm-hint">
+                        <span class="norm-toggle-text">🧹 Clean my input first</span>
+                    </label>
+                    <span id="norm-hint" class="norm-hint">Auto-fix grammar, structure &amp; mixed language before transforming</span>
+                </div>
+                <div id="norm-options" class="norm-options" hidden aria-label="Normalization options">
+                    <div class="mini-group">
+                        <label class="mini-label" for="input-type-select">Input type</label>
+                        <select id="input-type-select" class="mini-select" aria-label="Input type override">
+                            <option value="auto">Auto detect</option>
+                            <option value="notes">Bullet Notes</option>
+                            <option value="transcript">Transcript</option>
+                            <option value="rough">Rough Ideas</option>
+                            <option value="paragraph">Full Paragraph</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <!-- Platform Selector -->
             <div class="platform-selector">
-                <div class="selector-label">Transform to:</div>
-                <div class="platform-pills">
-                    <button class="pill active" data-platform="twitter">
-                        <span class="pill-emoji">𝕏</span>
+                <div class="selector-label" id="platform-label">Transform to:</div>
+                <div class="platform-pills" role="radiogroup" aria-labelledby="platform-label">
+                    <button class="pill active" data-platform="twitter" role="radio" aria-checked="true" aria-label="Transform to Twitter/X">
+                        <span class="pill-emoji" aria-hidden="true">𝕏</span>
                         <span>Twitter</span>
                     </button>
-                    <button class="pill" data-platform="linkedin">
-                        <span class="pill-emoji">💼</span>
+                    <button class="pill" data-platform="linkedin" role="radio" aria-checked="false" aria-label="Transform to LinkedIn">
+                        <span class="pill-emoji" aria-hidden="true">💼</span>
                         <span>LinkedIn</span>
                     </button>
-                    <button class="pill" data-platform="instagram">
-                        <span class="pill-emoji">📸</span>
+                    <button class="pill" data-platform="instagram" role="radio" aria-checked="false" aria-label="Transform to Instagram">
+                        <span class="pill-emoji" aria-hidden="true">📸</span>
                         <span>Instagram</span>
                     </button>
-                    <button class="pill" data-platform="newsletter">
-                        <span class="pill-emoji">📧</span>
+                    <button class="pill" data-platform="newsletter" role="radio" aria-checked="false" aria-label="Transform to Newsletter">
+                        <span class="pill-emoji" aria-hidden="true">📧</span>
                         <span>Newsletter</span>
                     </button>
-                    <button class="pill" data-platform="youtube">
-                        <span class="pill-emoji">🎬</span>
+                    <button class="pill" data-platform="youtube" role="radio" aria-checked="false" aria-label="Transform to YouTube">
+                        <span class="pill-emoji" aria-hidden="true">🎬</span>
                         <span>YouTube</span>
                     </button>
                 </div>
             </div>
 
             <!-- Transform Button -->
-            <button id="transform-btn" class="magic-button">
-                <span class="magic-icon">✨</span>
+            <button id="transform-btn" class="magic-button" aria-label="Transform content for selected platform">
+                <span class="magic-icon" aria-hidden="true">✨</span>
                 <span class="magic-text">Transform</span>
             </button>
         </div>
 
         <!-- Result Card (Hidden initially) -->
-        <div class="result-card" id="result-card" style="display: none;">
+        <div class="result-card" id="result-card" style="display: none;" aria-live="polite" aria-label="Transformation result">
             <div class="result-header">
                 <div class="result-title">
-                    <span class="result-emoji">✅</span>
+                    <span class="result-emoji" aria-hidden="true">✅</span>
                     <span id="result-platform-name">Twitter</span> Content Ready!
                 </div>
-                <div class="result-actions">
-                    <button class="action-icon" id="copy-result" title="Copy">📋</button>
-                    <button class="action-icon" id="download-result" title="Download">⬇️</button>
-                    <button class="action-icon" id="regenerate-result" title="Regenerate">🔄</button>
+                <div class="result-actions" role="group" aria-label="Result actions">
+                    <button class="action-icon" id="copy-result" aria-label="Copy result to clipboard" title="Copy">📋</button>
+                    <button class="action-icon" id="download-result" aria-label="Download result as text file" title="Download">⬇️</button>
+                    <button class="action-icon" id="regenerate-result" aria-label="Regenerate transformation" title="Regenerate">🔄</button>
+                    <button class="action-icon" id="toggle-comparison" aria-label="Toggle side-by-side comparison view" title="Compare" aria-pressed="false" hidden>⇔</button>
                 </div>
             </div>
-            <div class="result-content" id="result-content"></div>
+
+            <!-- Platform character limit indicator -->
+            <div id="char-limit-bar" class="char-limit-bar" hidden aria-live="polite"></div>
+
+            <!-- Comparison view (original vs generated) — shown when normalization is on -->
+            <div id="comparison-view" class="comparison-view" hidden>
+                <div class="compare-panel">
+                    <h4 class="compare-title">📝 Original Input</h4>
+                    <div id="original-content-display" class="compare-content" aria-label="Original input content"></div>
+                </div>
+                <div class="compare-panel">
+                    <h4 class="compare-title">🧹 Cleaned Input</h4>
+                    <div id="normalized-content-display" class="compare-content" aria-label="Cleaned and normalized input"></div>
+                </div>
+            </div>
+
+            <div class="result-content" id="result-content" aria-label="Generated content" tabindex="0"></div>
         </div>
 
         <!-- Loading Animation -->
-        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-overlay" id="loading-overlay" style="display: none;" role="status" aria-live="assertive" aria-label="Transforming content, please wait">
             <div class="loading-content">
-                <div class="magic-circle"></div>
-                <p>Creating magic<span class="animate-dots"></span></p>
+                <div class="magic-circle" aria-hidden="true"></div>
+                <p>Creating magic<span class="animate-dots" aria-hidden="true"></span></p>
             </div>
         </div>
     </div>
 
     <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
     </main>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
