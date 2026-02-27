@@ -24,6 +24,11 @@
 - [🗺 Roadmap / Future Updates](#-roadmap--future-updates)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
+- **Framework:** Streamlit
+- **AI:** Google Gemini API
+- **Language:** Python
+
+## Local Setup
 
 ---
 
@@ -58,6 +63,50 @@ Additional controls available in the UI:
 ---
 
 ## 🚀 Quick Start
+3. **Set up your API key:**
+   - Get a free Google Gemini API key from [Google AI Studio](https://ai.google.dev/)
+   - Create `.streamlit/secrets.toml` file:
+     ```bash
+     mkdir .streamlit
+     cp .streamlit/secrets.toml.example .streamlit/secrets.toml
+     ```
+   - Add your API key to `.streamlit/secrets.toml`:
+     ```toml
+     GOOGLE_API_KEY = "your-key-here"
+     ```
+
+4. **Run the app:**
+   ```bash
+   streamlit run app.py
+   ```
+
+5. **Open in browser:**
+   - Streamlit will automatically open the app in your default browser
+   - Default URL: `http://localhost:8501`
+
+## Deploy to Streamlit Cloud
+
+1. **Push your code to GitHub** (already done!)
+
+2. **Go to [Streamlit Cloud](https://share.streamlit.io/)**
+
+3. **Click "New app"**
+
+4. **Configure your app:**
+   - Repository: `your-username/contentforge`
+   - Branch: `main` or `master`
+   - Main file path: `app.py`
+
+5. **Add your API key in Secrets:**
+   - Click on "Advanced settings"
+   - In the "Secrets" section, add:
+     ```toml
+     GOOGLE_API_KEY = "your-google-api-key-here"
+     ```
+
+6. **Click "Deploy"!**
+
+Your app will be live at: `https://your-app-name.streamlit.app`
 
 > **Prerequisites:** Python 3.8+, a free [Google Gemini API key](https://ai.google.dev/)
 
