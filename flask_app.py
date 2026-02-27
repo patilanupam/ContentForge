@@ -203,7 +203,7 @@ def _transform_content(
     )
     prompt = f"{system_prompt}\n\n{base_prompt}\n\nOriginal Content:\n{content}"
 
-    response = client.models.generate_content(model="gemini-2.0-flash-exp", contents=prompt)
+    response = client.models.generate_content(model="gemini-2.0-flash-lite", contents=prompt)
     return response.text.strip()
 
 
