@@ -61,6 +61,8 @@ if 'result' not in st.session_state:
     st.session_state.result = None
 if 'platform' not in st.session_state:
     st.session_state.platform = 'twitter'
+if 'normalized_input' not in st.session_state:
+    st.session_state.normalized_input = None
 
 # Google Gemini Configuration
 @st.cache_resource
@@ -392,6 +394,17 @@ with st.sidebar:
     include_cta = st.checkbox("Include Call-to-Action", value=True)
     
     st.markdown("---")
+    st.markdown("### 🌐 Language")
+    
+    output_language = st.selectbox(
+        "Output Language",
+        ["Same as input", "English", "Hindi", "Spanish", "French", "Portuguese", "Arabic", "Japanese", "Chinese"],
+        index=0,
+        help="Select the language for the generated output"
+    )
+    output_lang_value = "auto" if output_language == "Same as input" else output_language
+    
+    st.markdown("---")
     if st.button("🔄 Reset Parameters", use_container_width=True):
         st.rerun()
 
@@ -428,7 +441,7 @@ st.markdown("---")
 st.markdown("### ✍️ Your Content")
 
 # Example buttons
-col1, col2, col3, col4 = st.columns([1, 1, 1, 3])
+col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
 with col1:
     if st.button("📝 Blog Example"):
         st.session_state.example_content = EXAMPLES["blog"]
@@ -438,6 +451,17 @@ with col2:
 with col3:
     if st.button("🎥 Video Example"):
         st.session_state.example_content = EXAMPLES["video"]
+with col4:
+    if st.button("🌐 Hinglish Example"):
+        st.session_state.example_content = """Kal client meeting tha, bahut acha gaya. Unhone product demo dekha aur impressed hue.
+Next steps: onboarding call schedule karna hai aur pricing discuss karni hai."""
+with col5:
+    if st.button("📋 Rough Notes"):
+        st.session_state.example_content = """startup idea
+ai + legal courts
+data aggregation
+reducing delays
+app for lawyers + clients + judges"""
 
 # Get example content if set
 default_content = st.session_state.get('example_content', '')
@@ -457,6 +481,24 @@ if content:
     st.session_state.input_tokens = tokens
     st.caption(f"📊 {chars:,} characters • ~{tokens:,} tokens")
 
+# Normalization controls
+st.markdown("#### 🧹 Input Normalization")
+col_norm1, col_norm2 = st.columns([1, 2])
+with col_norm1:
+    normalize_input = st.checkbox(
+        "Clean my input first",
+        help="Auto-fix grammar, structure, and mixed-language content before transforming"
+    )
+with col_norm2:
+    input_type = st.selectbox(
+        "Input type",
+        ["Auto detect", "Bullet Notes", "Transcript", "Rough Ideas", "Full Paragraph"],
+        index=0,
+        disabled=not normalize_input,
+        label_visibility="visible"
+    )
+    input_type_value = "auto" if input_type == "Auto detect" else input_type.lower().replace(" ", "_")
+
 # Transform button
 col1, col2, col3 = st.columns([2, 1, 2])
 with col2:
@@ -467,6 +509,32 @@ if st.button("🗑️ Clear All"):
     st.session_state.result = None
     st.session_state.example_content = ""
     st.rerun()
+
+def _build_normalize_prompt(content, input_type, output_language):
+    language_instruction = (
+        f"Write/translate the output in {output_language}."
+        if output_language and output_language != "auto"
+        else ""
+    )
+    input_type_hint = (
+        f"The user has indicated this content is: {input_type}."
+        if input_type and input_type != "auto"
+        else ""
+    )
+    return (
+        "You are an intelligent content preprocessor.\n\n"
+        "Tasks:\n"
+        "1. Detect the input type (bullet notes / transcript / rough ideas / paragraph / mixed-language).\n"
+        "2. Fix grammar, repair fragmented ideas, reconstruct into coherent content.\n"
+        "3. Preserve ALL original meaning, intent, and facts — do NOT add new information.\n"
+        "4. For mixed-language input (e.g., Hinglish), normalise while preserving meaning.\n"
+        "5. If input is only emojis or completely unusable, return it unchanged.\n"
+        f"{language_instruction}\n"
+        f"{input_type_hint}\n\n"
+        f"Input:\n{content}\n\n"
+        "Return ONLY the cleaned content with no explanations."
+    )
+
 
 # Transform logic
 if transform_button:
@@ -492,7 +560,23 @@ if transform_button:
         else:
             with st.spinner(f"🔄 Transforming for {platform_name}..."):
                 try:
-                    # Build parameters
+                    # Step 1: Normalize input if requested
+                    content_to_transform = content
+                    if normalize_input:
+                        with st.spinner("🧹 Cleaning your input..."):
+                            norm_prompt = _build_normalize_prompt(
+                                content, input_type_value, output_lang_value
+                            )
+                            norm_response = client.models.generate_content(
+                                model="gemini-2.0-flash-exp",
+                                contents=norm_prompt
+                            )
+                            content_to_transform = norm_response.text.strip()
+                            st.session_state.normalized_input = content_to_transform
+                    else:
+                        st.session_state.normalized_input = None
+                    
+                    # Step 2: Build platform prompt with parameters
                     params = {
                         'tone': tone,
                         'length': length,
@@ -501,7 +585,6 @@ if transform_button:
                         'includeCTA': include_cta
                     }
                     
-                    # Build prompt
                     base_prompt = PLATFORM_PROMPTS[st.session_state.platform]
                     
                     param_instructions = []
@@ -517,6 +600,8 @@ if transform_button:
                         param_instructions.append(f"Include {params['hashtags']} relevant hashtags")
                     if not params.get('includeCTA', True):
                         param_instructions.append("Do not include call-to-action")
+                    if output_lang_value != "auto":
+                        param_instructions.append(f"Write the output in {output_lang_value}")
                     
                     additional_params = "\n".join([f"- {p}" for p in param_instructions]) if param_instructions else ""
                     
@@ -524,7 +609,7 @@ if transform_button:
 
 {f'Additional Requirements:{chr(10)}{additional_params}' if additional_params else ''}"""
                     
-                    prompt = f"{system_prompt}\n\n{base_prompt}\n\nOriginal Content:\n{content}"
+                    prompt = f"{system_prompt}\n\n{base_prompt}\n\nOriginal Content:\n{content_to_transform}"
                     
                     # Generate content
                     response = client.models.generate_content(
@@ -546,6 +631,18 @@ if transform_button:
 if st.session_state.result:
     st.markdown("---")
     st.markdown(f"### 🎯 Result for {PLATFORM_EMOJIS[st.session_state.platform]} {platform_names[platforms.index(st.session_state.platform)]}")
+    
+    # Side-by-side comparison when normalization was used
+    if st.session_state.normalized_input:
+        st.markdown("#### 🔍 Side-by-side Comparison")
+        comp_col1, comp_col2 = st.columns(2)
+        with comp_col1:
+            st.markdown("**📝 Original Input**")
+            st.text_area("original", value=st.session_state.get('example_content', content), height=150, disabled=True, label_visibility="collapsed")
+        with comp_col2:
+            st.markdown("**🧹 Cleaned Input**")
+            st.text_area("normalized", value=st.session_state.normalized_input, height=150, disabled=True, label_visibility="collapsed")
+        st.markdown("---")
     
     st.markdown(f'<div class="result-box">{st.session_state.result}</div>', unsafe_allow_html=True)
     
