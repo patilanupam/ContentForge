@@ -157,7 +157,7 @@ def _build_normalize_prompt(content: str, input_type: str, output_language: str)
 
 def _normalize_content(content: str, input_type: str = "auto", output_language: str = "auto") -> str:
     prompt = _build_normalize_prompt(content, input_type, output_language)
-    response = client.models.generate_content(model="gemini-flash-lite-latest", contents=prompt)
+    response = client.models.generate_content(model="gemini-3-flash-preview", contents=prompt)
     return response.text.strip()
 
 
