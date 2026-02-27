@@ -467,7 +467,8 @@ body {
 }
 
 .result-content {
-    background: var(--bg);
+    background: var(--card-bg);
+    color: var(--text);
     padding: 1.5rem;
     border-radius: 12px;
     white-space: pre-wrap;
